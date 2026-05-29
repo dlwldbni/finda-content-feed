@@ -145,10 +145,10 @@
   const allSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
 
   const CANDS = [
-    {tag:'D-1', name:'탐색', icon:'find', roman:'探索 · 찾을 探 + 찾을 索 = 샅샅이 뒤져 찾다',
-     why:'<b>목적을 갖고 능동적으로 정보를 찾아오는</b> 공간이라는 톤. "내게 맞는 금융을 <b>찾다</b>"라는 핀다(Find+a) 정체성과 의미상 1:1로 맞닿습니다. 돋보기 아이콘과도 직관적으로 연결돼 "찾으러 가는 곳"이라는 기능적 멘탈모델이 명확.'},
-    {tag:'D-2', name:'발견', icon:'discover', roman:'發見 · 드러날 發 + 볼 見 = 숨은 것을 비로소 보다',
-     why:'능동적 검색(find)과 달리, 의도치 않게 유용한 정보를 <b>마주치는 세렌디피티</b>에 방점. "찾으러 가는 곳"이 아니라 "열면 알아서 보여주는 곳". <b>떠먹여주는 큐레이션 피드</b>의 멘탈모델(토스 피드·네이버 콘텐츠)과 가장 잘 맞습니다.'}
+    {tag:'D-1', name:'탐색', icon:'find',
+     why:'사용자가 <b>직접 찾으러 오는 공간</b>이라는 톤으로, "내게 맞는 금융을 찾는다"는 핀다 정체성과 잘 맞습니다.'},
+    {tag:'D-2', name:'발견', icon:'discover',
+     why:'열면 <b>알아서 보여주는 큐레이션 피드</b>라는 톤으로, 콘텐츠를 우연히 마주치게 하는 데 더 잘 맞습니다.'}
   ];
 
   const feed = `
@@ -219,7 +219,6 @@
       <div class="cap">
         <span class="tag">${c.tag} 후보</span>
         <div class="name">${c.name}</div>
-        <div class="roman">${c.roman}</div>
         <div class="why">${c.why}</div>
       </div>
       <div class="phone">
