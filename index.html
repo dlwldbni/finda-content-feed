@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>시나리오 D · 콘텐츠(핀다포스트) 중심 개편</title>
+<style>
+  :root{
+    --purple060:#5D4CF2;
+    --purple070:#4B3BD6;
+    --purple-light:#EEEBFF;
+    --gray010:#F6F6F9;
+    --gray020:#EDEEF2;
+    --gray030:#E1E3EA;
+    --gray040:#C8CBD4;
+    --gray050:#AEB2BE;
+    --text01:#15161B;
+    --text02:#4A4D57;
+    --text03:#9498A4;
+    --blue:#2E6BF0;--blue-l:#E8EEFF;
+    --pink:#E0489E;--pink-l:#FCE7F2;
+    --green:#1B9E63;--green-l:#E3F6EC;
+    --teal:#1BB6A6;
+    --white:#FFFFFF;
+    --bg:#F2F3F6;
+    --radius-card:18px;
+    --radius-pill:999px;
+    --font:'PretendardFin','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}
+  body{font-family:var(--font);
+    background:linear-gradient(160deg,#ECEAFE 0%,#F4F5F8 45%,#EAF0FB 100%);
+    min-height:100vh;color:var(--text01);padding:40px 20px 80px;display:flex;flex-direction:column;align-items:center;}
+
+  .head{max-width:1000px;width:100%;margin-bottom:30px;text-align:center;}
+  .head .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;
+    color:var(--purple060);background:var(--purple-light);padding:6px 14px;border-radius:var(--radius-pill);margin-bottom:14px;}
+  .head h1{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-bottom:10px;}
+  .head p{font-size:14px;color:var(--text02);line-height:1.6;}
+
+  .row{display:flex;gap:30px;flex-wrap:wrap;justify-content:center;align-items:flex-start;}
+  .col{display:flex;flex-direction:column;align-items:center;width:390px;}
+  .cap{text-align:left;margin-bottom:16px;width:390px;background:var(--white);border-radius:16px;
+    padding:16px 18px;box-shadow:0 4px 14px rgba(30,30,60,.05);}
+  .cap .tag{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--purple060);
+    padding:4px 12px;border-radius:var(--radius-pill);margin-bottom:8px;}
+  .cap .name{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:4px;}
+  .cap .roman{font-size:12px;color:var(--text03);font-weight:600;margin-bottom:8px;}
+  .cap .why{font-size:12.5px;color:var(--text02);line-height:1.6;}
+  .cap .why b{color:var(--text01);}
+
+  .phone{width:390px;height:880px;background:var(--bg);border-radius:36px;
+    border:1px solid var(--gray020);box-shadow:0 24px 60px rgba(20,22,40,.16);
+    overflow:hidden;position:relative;display:flex;flex-direction:column;}
+  .statusbar{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;
+    padding:16px 28px 6px;font-size:15px;font-weight:600;background:var(--bg);z-index:20;}
+  .statusbar .right{display:flex;align-items:center;gap:6px;font-size:13px;}
+  .battery{background:#1c1d22;color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;}
+  .pageheader{flex:0 0 auto;padding:10px 20px 6px;background:var(--bg);z-index:15;
+    display:flex;align-items:baseline;justify-content:space-between;}
+  .pageheader h2{font-size:26px;font-weight:800;letter-spacing:-.03em;}
+  .pageheader .pts{font-size:12px;font-weight:700;color:var(--purple060);background:var(--purple-light);
+    padding:6px 11px;border-radius:var(--radius-pill);}
+
+  /* category chips */
+  .chips{flex:0 0 auto;display:flex;gap:7px;padding:8px 16px 10px;overflow-x:auto;background:var(--bg);}
+  .chips::-webkit-scrollbar{display:none;}
+  .chip{flex:0 0 auto;font-size:12.5px;font-weight:700;color:var(--text03);background:var(--white);
+    border:1px solid var(--gray020);padding:7px 13px;border-radius:var(--radius-pill);}
+  .chip.on{background:#1c1d22;color:#fff;border-color:#1c1d22;}
+
+  .screen{flex:1;overflow-y:auto;padding:6px 16px 16px;}
+  .screen::-webkit-scrollbar{width:0;}
+
+  .ctag{display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.02em;}
+  .ctag.purple{color:var(--purple060);background:var(--purple-light);}
+  .ctag.blue{color:var(--blue);background:var(--blue-l);}
+  .ctag.pink{color:var(--pink);background:var(--pink-l);}
+  .ctag.green{color:var(--green);background:var(--green-l);}
+  .ad{font-size:9px;font-weight:800;color:var(--gray050);border:1px solid var(--gray030);
+    border-radius:4px;padding:1px 5px;letter-spacing:.06em;}
+
+  /* hero featured */
+  .hero{background:var(--white);border-radius:var(--radius-card);overflow:hidden;margin-bottom:14px;
+    box-shadow:0 6px 18px rgba(30,30,60,.07);}
+  .hero .thumb{height:150px;background:linear-gradient(135deg,#23242B,#3A3B45);
+    display:flex;align-items:center;justify-content:center;font-size:54px;position:relative;}
+  .hero .thumb .badge{position:absolute;top:12px;left:12px;font-size:10px;font-weight:800;color:#fff;
+    background:rgba(255,255,255,.18);padding:4px 9px;border-radius:6px;backdrop-filter:blur(4px);}
+  .hero .hbody{padding:15px 16px 16px;}
+  .hero .htitle{font-size:18px;font-weight:800;line-height:1.32;letter-spacing:-.02em;margin-bottom:6px;}
+  .hero .hdek{font-size:13px;color:var(--text02);line-height:1.5;margin-bottom:10px;}
+  .hero .hmeta{font-size:11px;color:var(--text03);font-weight:600;}
+
+  /* feed card (horizontal) */
+  .fcard{display:flex;gap:13px;background:var(--white);border-radius:var(--radius-card);
+    padding:14px;margin-bottom:12px;box-shadow:0 4px 14px rgba(30,30,60,.05);}
+  .fcard .fthumb{width:78px;height:78px;border-radius:13px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:34px;}
+  .fcard .fbody{flex:1;display:flex;flex-direction:column;justify-content:center;min-width:0;}
+  .fcard .ftop{margin-bottom:5px;display:flex;align-items:center;gap:6px;}
+  .fcard .ftitle{font-size:14.5px;font-weight:800;line-height:1.32;letter-spacing:-.02em;margin-bottom:4px;}
+  .fcard .fdek{font-size:11.5px;color:var(--text02);line-height:1.45;margin-bottom:7px;}
+  .fcard .fmeta{font-size:10.5px;color:var(--text03);font-weight:600;display:flex;align-items:center;gap:7px;}
+  .fcard .fmeta .val{color:var(--purple060);font-weight:800;}
+
+  .th-blue{background:var(--blue-l);}
+  .th-pink{background:var(--pink-l);}
+  .th-purple{background:var(--purple-light);}
+  .th-green{background:var(--green-l);}
+
+  .sectt{font-size:15px;font-weight:800;letter-spacing:-.02em;margin:6px 4px 12px;}
+
+  /* bottom nav */
+  .tabbar{flex:0 0 auto;display:flex;justify-content:space-around;align-items:center;
+    padding:10px 0 22px;background:var(--white);border-top:1px solid var(--gray020);z-index:20;}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:5px;color:var(--gray050);}
+  .tab .ti{width:24px;height:24px;display:flex;align-items:center;justify-content:center;}
+  .tab .ti > svg{width:22px;height:22px;display:block;}
+  .tab .tl{font-size:11px;font-weight:600;}
+  .tab.active{color:var(--text01);}
+  .tab.active .pcircle{width:24px;height:24px;border-radius:50%;background:var(--purple060);color:#fff;
+    display:flex;align-items:center;justify-content:center;}
+  .tab.active .pcircle svg{width:15px;height:15px;display:block;}
+</style>
+</head>
+<body>
+
+  <div class="head">
+    <span class="eyebrow">시나리오 D · 콘텐츠(핀다포스트) 중심 개편</span>
+    <h1>탭 네이밍 2안 · FIND / 발견</h1>
+    <p>하단에 묻혀 있던 <b>핀다포스트를 전면화</b>해 '정보·발견의 공간'으로 재정의합니다.<br/>혜택은 효용성 헤드라인으로, 이벤트·광고는 카테고리·읽는 시간이 붙은 <b>네이티브 콘텐츠</b>로 노출돼 광고도 하나의 유저 콘텐츠처럼 읽힙니다.</p>
+  </div>
+
+  <div class="row" id="row"></div>
+
+<script>
+  const ICONS = {
+    // FIND → 돋보기 (찾다 · 능동적 탐색)
+    find: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>',
+    // 발견 → 나침반 (마주침 · 세렌디피티)
+    discover: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="#fff" stroke="none"/></svg>'
+  };
+  const homeSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19h12v-8.5"/></svg>';
+  const allSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+
+  const CANDS = [
+    {tag:'D-1', name:'FIND', icon:'find', roman:'find · 古英語 findan = 찾아내다, 마주하다',
+     why:'<b>핀다(Find+a)라는 브랜드 이름의 어원 그 자체.</b> "내게 맞는 금융을 <b>찾다</b>"라는 핀다 정체성과 1:1로 맞닿습니다. 사용자가 목적을 갖고 능동적으로 정보를 <b>찾아오는</b> 탐색 공간이라는 톤. 영문 워드마크로 브랜드 자산과 시각적으로도 연결.'},
+    {tag:'D-2', name:'발견', icon:'discover', roman:'發見 · 드러날 發 + 볼 見 = 숨은 것을 비로소 보다',
+     why:'능동적 검색(find)과 달리, 의도치 않게 유용한 정보를 <b>마주치는 세렌디피티</b>에 방점. "찾으러 가는 곳"이 아니라 "열면 알아서 보여주는 곳". <b>떠먹여주는 큐레이션 피드</b>의 멘탈모델(토스 피드·네이버 콘텐츠)과 가장 잘 맞습니다.'}
+  ];
+
+  const feed = `
+    <div class="hero">
+      <div class="thumb">🌼<span class="badge">핀다포스트 · 정책금융</span></div>
+      <div class="hbody">
+        <div class="htitle">새희망홀씨 대출, 이용기회가 확대됐어요</div>
+        <div class="hdek">소득·신용 조건이 완화되면서 더 많은 분들이 저금리 정책대출을 받을 수 있게 됐어요. 내 조건으로 가능한지 1분이면 확인.</div>
+        <div class="hmeta">🕒 3분 읽기 · 핀다 에디터</div>
+      </div>
+    </div>
+
+    <div class="sectt">오늘의 금융 인사이트</div>
+
+    <div class="fcard">
+      <div class="fthumb th-blue">📉</div>
+      <div class="fbody">
+        <div class="ftop"><span class="ctag blue">대출</span></div>
+        <div class="ftitle">금리 인하기, 지금 갈아타면 이자 얼마나 줄까?</div>
+        <div class="fdek">대환 타이밍에 따라 1년 이자가 수십만 원 차이날 수 있어요.</div>
+        <div class="fmeta">🕒 5분 읽기</div>
+      </div>
+    </div>
+
+    <div class="fcard">
+      <div class="fthumb th-pink">💳</div>
+      <div class="fbody">
+        <div class="ftop"><span class="ctag pink">맞춤 혜택</span><span class="ad">AD</span></div>
+        <div class="ftitle">월 80만원 쓰는 당신, 이 카드로 연 19만원 캐시백</div>
+        <div class="fdek">소비 패턴을 분석해 가장 많이 돌려받는 카드를 찾아드려요.</div>
+        <div class="fmeta">핀다 카드비교 · <span class="val">내 혜택 계산하기 ›</span></div>
+      </div>
+    </div>
+
+    <div class="fcard">
+      <div class="fthumb th-purple">🎁</div>
+      <div class="fbody">
+        <div class="ftop"><span class="ctag purple">이벤트</span></div>
+        <div class="ftitle">가정의달, 놓치면 아쉬운 핀다 혜택 5가지</div>
+        <div class="fdek">지금 응모하면 최대 5만 포인트. 5월 29일 마감이에요.</div>
+        <div class="fmeta">🔥 마감 D-10 · <span class="val">응모하기 ›</span></div>
+      </div>
+    </div>
+
+    <div class="fcard">
+      <div class="fthumb th-blue">🚗</div>
+      <div class="fbody">
+        <div class="ftop"><span class="ctag blue">대출</span><span class="ad">AD</span></div>
+        <div class="ftitle">내 차가 현금이 된다? 시세의 2배까지 대출</div>
+        <div class="fdek">현대캐피탈 자동차담보대출로 추가 한도를 확인해보세요.</div>
+        <div class="fmeta">읽고 포인트 <span class="val">+5P</span></div>
+      </div>
+    </div>
+
+    <div class="fcard">
+      <div class="fthumb th-green">📊</div>
+      <div class="fbody">
+        <div class="ftop"><span class="ctag green">절약팁</span><span class="ad">AD</span></div>
+        <div class="ftitle">신용대출 금리, 2%까지 아끼는 법</div>
+        <div class="fdek">SBI저축은행 금리할인으로 매달 이자 부담을 줄이는 방법.</div>
+        <div class="fmeta">읽고 포인트 <span class="val">+5P</span></div>
+      </div>
+    </div>`;
+
+  function phone(c){
+    return `
+    <div class="col">
+      <div class="cap">
+        <span class="tag">${c.tag} 후보</span>
+        <div class="name">${c.name}</div>
+        <div class="roman">${c.roman}</div>
+        <div class="why">${c.why}</div>
+      </div>
+      <div class="phone">
+        <div class="statusbar"><span>12:04</span><span class="right">📶 5G <span class="battery">100</span></span></div>
+        <div class="pageheader"><h2>${c.name}</h2><span class="pts">P 3,644</span></div>
+        <div class="chips">
+          <span class="chip on">전체</span><span class="chip">대출</span><span class="chip">카드</span><span class="chip">보험</span><span class="chip">절약팁</span>
+        </div>
+        <div class="screen">${feed}</div>
+        <div class="tabbar">
+          <div class="tab"><div class="ti">${homeSvg}</div><div class="tl">홈</div></div>
+          <div class="tab active"><div class="ti"><span class="pcircle">${ICONS[c.icon]}</span></div><div class="tl">${c.name}</div></div>
+          <div class="tab"><div class="ti">${allSvg}</div><div class="tl">전체</div></div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('row').innerHTML = CANDS.map(phone).join('');
+</script>
+</body>
+</html>
